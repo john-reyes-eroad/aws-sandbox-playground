@@ -1,0 +1,1 @@
+aws cloudformation create-stack --stack-name johnr-ddb-kds --template-body file://template.yml

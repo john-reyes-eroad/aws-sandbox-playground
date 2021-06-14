@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: Sandbox
+
+Parameters:
+
+  TableName:
+    Type: String
+    Default: JohnRDDBKDS
+
+Resources:
+  
+  KinesisStream:
+    Type: AWS::Kinesis::Stream
+    Properties:
+      RetentionPeriodHours: 24
+      ShardCount: 1
+
+  DynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      TableName: !Ref TableName
+      AttributeDefinitions:
+        - AttributeName: partitionKey
+          AttributeType: S
+        - AttributeName: rangeKey
+          AttributeType: S
+      KeySchema:
+        - AttributeName: partitionKey
+          KeyType: HASH
+        - AttributeName: rangeKey
+          KeyType: RANGE
+      KinesisStreamSpecification:
+        StreamArn: !GetAtt KinesisStream.Arn
+
+Outputs:
+  KinesisStreamARN:
+    Value: !GetAtt KinesisStream.Arn
+    Export:
+      Name: !Sub '${TableName}-ARN'
