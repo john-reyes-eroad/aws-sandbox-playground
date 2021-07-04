@@ -1,0 +1,1 @@
+aws ecr delete-repository --force --repository-name greetings-api-repo

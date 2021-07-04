@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+
+  greetings:
+    image: 465521767555.dkr.ecr.us-east-1.amazonaws.com/greetings-api-repo
+    ports: ['8080:8080']
+  
